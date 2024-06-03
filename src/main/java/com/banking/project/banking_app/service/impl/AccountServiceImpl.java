@@ -68,4 +68,12 @@ public class AccountServiceImpl implements AccountService {
         List<Account> accounts = accountRepository.findAll();
         return accounts.stream().map(AccountMapper::mapToAccountDto).toList();
     }
+
+    @Override
+    public void deleteAccount(Long id) {
+        Account account = accountRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+        accountRepository.deleteById(id);
+    }
 }
