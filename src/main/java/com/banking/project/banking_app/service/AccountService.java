@@ -6,4 +6,6 @@ import com.banking.project.banking_app.entity.Account;
 public interface AccountService {
 
     AccountDto createAccount(AccountDto accountDto);
+
+    AccountDto getAccountById(Long id);
 }
