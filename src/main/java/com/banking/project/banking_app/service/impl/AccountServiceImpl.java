@@ -10,6 +10,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AccountServiceImpl implements AccountService {
 
+    private static final String undefinedAccount = "Account does not exists";
+
     private final AccountRepository accountRepository;
 
     public AccountServiceImpl(AccountRepository accountRepository) {
@@ -27,7 +29,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto getAccountById(Long id) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account does not exists"));
+                .orElseThrow(() -> new RuntimeException(undefinedAccount));
         return AccountMapper.mapToAccountDto(account);
     }
 
@@ -35,10 +37,26 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto deposit(Long id, double amount) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException("Account does not exists"));
+                .orElseThrow(() -> new RuntimeException(undefinedAccount));
         double total = account.getBalance() + amount;
         account.setBalance(total);
         Account savedAccount = accountRepository.save(account);
+
+        return AccountMapper.mapToAccountDto(savedAccount);
+    }
+
+    @Override
+    public AccountDto withdraw(Long id, double amount) {
+        Account account = accountRepository
+                .findById(id)
+                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+        if (account.getBalance() < amount) {
+            throw new RuntimeException("Insufficient funds");
+        }
+        double total = account.getBalance() - amount;
+        account.setBalance(total);
+        Account savedAccount = accountRepository.save(account);
+
         return AccountMapper.mapToAccountDto(savedAccount);
     }
 }
