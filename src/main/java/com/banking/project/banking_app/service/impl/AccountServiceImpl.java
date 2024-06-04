@@ -2,6 +2,7 @@ package com.banking.project.banking_app.service.impl;
 
 import com.banking.project.banking_app.dto.AccountDto;
 import com.banking.project.banking_app.entity.Account;
+import com.banking.project.banking_app.exception.AccountException;
 import com.banking.project.banking_app.mapper.AccountMapper;
 import com.banking.project.banking_app.repository.AccountRepository;
 import com.banking.project.banking_app.service.AccountService;
@@ -32,7 +33,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto getAccountById(Long id) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+                .orElseThrow(() -> new AccountException(undefinedAccount));
         return AccountMapper.mapToAccountDto(account);
     }
 
@@ -40,7 +41,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto deposit(Long id, double amount) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+                .orElseThrow(() -> new AccountException(undefinedAccount));
         double total = account.getBalance() + amount;
         account.setBalance(total);
         Account savedAccount = accountRepository.save(account);
@@ -52,7 +53,7 @@ public class AccountServiceImpl implements AccountService {
     public AccountDto withdraw(Long id, double amount) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+                .orElseThrow(() -> new AccountException(undefinedAccount));
         if (account.getBalance() < amount) {
             throw new RuntimeException("Insufficient funds");
         }
@@ -73,7 +74,7 @@ public class AccountServiceImpl implements AccountService {
     public void deleteAccount(Long id) {
         Account account = accountRepository
                 .findById(id)
-                .orElseThrow(() -> new RuntimeException(undefinedAccount));
+                .orElseThrow(() -> new AccountException(undefinedAccount));
         accountRepository.deleteById(id);
     }
 }
