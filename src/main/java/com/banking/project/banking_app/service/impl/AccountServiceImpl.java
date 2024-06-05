@@ -1,6 +1,7 @@
 package com.banking.project.banking_app.service.impl;
 
 import com.banking.project.banking_app.dto.AccountDto;
+import com.banking.project.banking_app.dto.TransferFundDto;
 import com.banking.project.banking_app.entity.Account;
 import com.banking.project.banking_app.exception.AccountException;
 import com.banking.project.banking_app.mapper.AccountMapper;
@@ -76,5 +77,26 @@ public class AccountServiceImpl implements AccountService {
                 .findById(id)
                 .orElseThrow(() -> new AccountException(undefinedAccount));
         accountRepository.deleteById(id);
+    }
+
+    @Override
+    public void transferFunds(TransferFundDto transferFundDto) {
+        Account fromAccount = accountRepository
+                .findById(transferFundDto.fromAccountId())
+                .orElseThrow(() -> new AccountException(undefinedAccount));
+
+        Account toAccount = accountRepository
+                .findById(transferFundDto.toAccountId())
+                .orElseThrow(() -> new AccountException(undefinedAccount));
+
+        if (transferFundDto.amount() > fromAccount.getBalance()) {
+            throw new IllegalArgumentException("Insufficient funds");
+        } else {
+            fromAccount.setBalance(fromAccount.getBalance() - transferFundDto.amount());
+            toAccount.setBalance(toAccount.getBalance() + transferFundDto.amount());
+
+            accountRepository.save(fromAccount);
+            accountRepository.save(toAccount);
+        }
     }
 }
