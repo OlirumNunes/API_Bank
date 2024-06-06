@@ -7,7 +7,7 @@
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](https://github.com/Naereen/StrapDown.js/blob/master/LICENSE)
 
 _Read this in other languages:_
-[_Português_](https://github.com/OlirumNunes/API_Bank/blob/main/Leia-me.md)
+[_Português_](https://github.com/OlirumNunes/API_Bank/blob/main/LEIA-ME.md)
 
 This project is the creation of an API simulating banking operations. Built using Spring Boot, it performs all CRUD
 operations. In addition to storing all transactions in a bank, it creates a history of transactions when a deposit,
