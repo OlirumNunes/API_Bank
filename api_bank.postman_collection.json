@@ -1,0 +1,168 @@
+{
+	"info": {
+		"_postman_id": "2146fc26-5633-4a81-8864-3a50c7451eec",
+		"name": "api_bank",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "33926133"
+	},
+	"item": [
+		{
+			"name": "post_Account",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"accountHolderName\": \"Linguido Leitor\",\r\n    \"balance\": 10\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}accounts",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "post_Account(Transfer)",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"fromAccountId\": 1,\r\n    \"toAccountId\": 2,\r\n    \"amount\": 2000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}accounts/transfer",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					],
+					"path": [
+						"transfer"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_Account",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}accounts",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "get_Transactions",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}accounts/1/transactions",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					],
+					"path": [
+						"1",
+						"transactions"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put_Account(Deposit)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 6\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}accounts/3/deposit",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					],
+					"path": [
+						"3",
+						"deposit"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "put_Account(Withdraw)",
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"amount\": 5000\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{LOCALHOST}}accounts/3/withdraw",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					],
+					"path": [
+						"3",
+						"withdraw"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "delete_Account",
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"url": {
+					"raw": "{{LOCALHOST}}accounts/6",
+					"host": [
+						"{{LOCALHOST}}accounts"
+					],
+					"path": [
+						"6"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "LOCALHOST",
+			"value": "http://localhost:8080/api/"
+		}
+	]
+}
