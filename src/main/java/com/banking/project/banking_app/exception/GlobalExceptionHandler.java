@@ -8,9 +8,20 @@ import org.springframework.web.context.request.WebRequest;
 
 import java.time.LocalDateTime;
 
+/**
+ * Global exception handler for handling exceptions across all controllers.
+ * This class provides methods to handle specific exceptions and generic exceptions.
+ */
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
+    /**
+     * Handles AccountException and returns an appropriate ResponseEntity with error details.
+     *
+     * @param exception  The AccountException instance.
+     * @param webRequest The WebRequest instance.
+     * @return A ResponseEntity containing error details and HttpStatus.NOT_FOUND.
+     */
     @ExceptionHandler(AccountException.class)
     public ResponseEntity<ErrorDetails> handlerAccountException(AccountException exception,
                                                                 WebRequest webRequest) {
@@ -23,6 +34,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.NOT_FOUND);
     }
 
+    /**
+     * Handles generic exceptions and returns an appropriate ResponseEntity with error details.
+     *
+     * @param exception  The Exception instance.
+     * @param webRequest The WebRequest instance.
+     * @return A ResponseEntity containing error details and HttpStatus.INTERNAL_SERVER_ERROR.
+     */
     @ExceptionHandler
     public ResponseEntity<ErrorDetails> handleGenericException(Exception exception,
                                                                WebRequest webRequest) {

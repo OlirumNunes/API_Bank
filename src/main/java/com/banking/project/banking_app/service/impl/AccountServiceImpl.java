@@ -15,28 +15,34 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Locale;
-import java.util.stream.Collectors;
 
+/**
+ * Implementation of the AccountService interface.
+ * This class provides methods to perform various operations related to accounts.
+ */
 @Service
 public class AccountServiceImpl implements AccountService {
 
-    private static final String UNDEFINED_ACCOUNT = "Account does not exists";
+    // Constants for transaction types
+    private static final String UNDEFINED_ACCOUNT = "Account does not exist";
     private static final String TRANSACTION_TYPE_DEPOSIT = "DEPOSIT";
     private static final String TRANSACTION_TYPE_WITHDRAW = "WITHDRAW";
-    private static final String TRANSACTION_TYPE_TRANFER = "TRANFER";
+    private static final String TRANSACTION_TYPE_TRANSFER = "TRANSFER";
 
+    // Transaction object
     static Transaction transaction = new Transaction();
 
     private final AccountRepository accountRepository;
     private final TransactionRepository transactionRepository;
 
+    // Constructor injecting dependencies
     public AccountServiceImpl(AccountRepository accountRepository,
                               TransactionRepository transactionRepository) {
         this.accountRepository = accountRepository;
         this.transactionRepository = transactionRepository;
     }
 
+    // Asynchronous method to save account and transaction
     @Async
     public void saveTransaction(Account account,
                                 Transaction transaction) {
@@ -130,7 +136,7 @@ public class AccountServiceImpl implements AccountService {
 
             transaction.setAccountId(transferFundDto.fromAccountId());
             transaction.setAmount(transferFundDto.amount());
-            transaction.setTransactionType(TRANSACTION_TYPE_TRANFER);
+            transaction.setTransactionType(TRANSACTION_TYPE_TRANSFER);
             transaction.setTimestamp(LocalDateTime.now());
 
             accountRepository.save(fromAccount);
@@ -143,7 +149,7 @@ public class AccountServiceImpl implements AccountService {
     public List<TransactionDto> getAccountTransactions(Long accountId) {
         List<Transaction> transactions = transactionRepository
                 .findByAccountIdOrderByTimestampDesc(accountId);
-       return  transactions.stream()
+        return transactions.stream()
                 .map(this::convertEntityToDto)
                 .toList();
     }
